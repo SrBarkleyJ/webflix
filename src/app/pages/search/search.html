@@ -1,0 +1,69 @@
+<div class="search-page">
+  <div class="container">
+    <!-- Search Header -->
+    <div class="search-header">
+      <h1 class="page-title">Search Movies</h1>
+      
+      <!-- Search Input -->
+      <div class="search-input-container">
+        <input
+          type="text"
+          [value]="searchQuery"
+          (input)="onSearchInput($event)"
+          placeholder="Type to search for movies..."
+          class="search-input-large"
+        />
+        <div class="search-icon">🔍</div>
+      </div>
+    </div>
+
+    <!-- Search Info -->
+    <div *ngIf="searchQuery && !isLoading" class="search-info">
+      <p *ngIf="totalResults > 0" class="results-count">
+        Found {{ totalResults }} results for "{{ searchQuery }}"
+      </p>
+      <p *ngIf="totalResults === 0 && !error" class="no-results">
+        No results found for "{{ searchQuery }}"
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Searching movies...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="error-container">
+      <p class="error-message">{{ error }}</p>
+      <button class="retry-btn" (click)="performSearch(searchQuery)">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Search Results -->
+    <div *ngIf="searchResults.length > 0 && !isLoading" class="search-results">
+      <div class="movies-grid">
+        <app-movie-card 
+          *ngFor="let movie of searchResults"
+          [movie]="movie"
+          class="movie-item"
+        />
+      </div>
+
+      <!-- Load More Button -->
+      <div *ngIf="currentPage < totalPages" class="load-more-container">
+        <button class="load-more-btn" (click)="loadMore()">
+          Load More
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!searchQuery && !isLoading" class="empty-state">
+      <div class="empty-icon">🎬</div>
+      <h2>Start Searching</h2>
+      <p>Enter a movie title in the search bar above to get started</p>
+    </div>
+  </div>
+</div>

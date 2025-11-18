@@ -1,0 +1,20 @@
+<div class="search-bar">
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (keyup)="onKeyPress($event)"
+      placeholder="Search for movies..."
+      class="search-input"
+      aria-label="Search movies"
+    />
+    <button 
+      (click)="onSearch()" 
+      class="search-button"
+      [disabled]="!searchQuery.trim()"
+      aria-label="Search"
+    >
+      <span class="search-icon">🔍</span>
+    </button>
+  </div>
+</div>

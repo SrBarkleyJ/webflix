@@ -1,0 +1,82 @@
+<div class="movie-details-page">
+  <!-- Back Button -->
+  <div class="container">
+    <a [routerLink]="['/']" class="back-button">
+      ← Back to Home
+    </a>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading movie details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="retry-btn" (click)="loadMovieDetails(movie?.id || 0)">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Movie Details -->
+  <div *ngIf="movie && !isLoading" class="movie-details">
+    <!-- Backdrop -->
+    <div class="backdrop-section">
+      <div 
+        class="backdrop-image"
+        [style.backgroundImage]="'url(' + (movie.backdrop_path | imageUrl:'w1280') + ')'"
+      ></div>
+      <div class="backdrop-overlay"></div>
+    </div>
+
+    <!-- Movie Content -->
+    <div class="container">
+      <div class="movie-content">
+        <!-- Poster -->
+        <div class="poster-side">
+          <img 
+            [src]="movie.poster_path | imageUrl:'w500'" 
+            [alt]="movie.title"
+            class="movie-poster"
+          />
+        </div>
+
+        <!-- Info -->
+        <div class="info-side">
+          <h1 class="movie-title">{{ movie.title }}</h1>
+          
+          <div class="movie-meta">
+            <span class="release-year">
+              {{ movie.release_date | date:'yyyy' }}
+            </span>
+            <span class="rating">
+              ⭐ {{ movie.vote_average | number:'1.1-1' }}/10
+            </span>
+            <span class="vote-count">
+              ({{ movie.vote_count }} votes)
+            </span>
+          </div>
+
+          <p class="movie-overview">{{ movie.overview }}</p>
+
+          <div class="movie-details-grid">
+            <div class="detail-item">
+              <strong>Release Date:</strong>
+              <span>{{ movie.release_date | date:'longDate' }}</span>
+            </div>
+            <div class="detail-item">
+              <strong>Original Language:</strong>
+              <span>{{ movie.original_language | uppercase }}</span>
+            </div>
+            <div class="detail-item">
+              <strong>Popularity:</strong>
+              <span>{{ movie.popularity | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

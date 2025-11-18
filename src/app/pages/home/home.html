@@ -1,0 +1,37 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to MovieApp</h1>
+      <p class="hero-subtitle">Discover the best movies from around the world</p>
+    </div>
+  </section>
+
+  <!-- Movies Section -->
+  <section class="movies-section">
+    <div class="container">
+      <h2 class="section-title">Popular Movies</h2>
+      
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading movies...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error && !isLoading" class="error-container">
+        <p class="error-message">{{ error }}</p>
+        <button class="retry-btn" (click)="loadPopularMovies()">Try Again</button>
+      </div>
+
+      <!-- Movies Grid -->
+      <div *ngIf="!isLoading && !error" class="movies-grid">
+        <app-movie-card 
+          *ngFor="let movie of popularMovies"
+          [movie]="movie"
+          class="movie-item"
+        />
+      </div>
+    </div>
+  </section>
+</div>

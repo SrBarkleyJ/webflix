@@ -1,0 +1,55 @@
+<header class="header">
+  <nav class="nav container">
+    <!-- Logo -->
+    <a [routerLink]="['/']" class="logo" (click)="closeMenu()">
+      <span class="logo-icon">🎬</span>
+      <span class="logo-text">MovieApp</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="nav-desktop">
+      <app-search-bar />
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      class="mobile-menu-btn"
+      (click)="toggleMenu()"
+      aria-label="Toggle menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div 
+      class="mobile-menu-overlay" 
+      [class.active]="isMenuOpen"
+      (click)="closeMenu()"
+    >
+      <div class="mobile-menu-content" (click)="$event.stopPropagation()">
+        <div class="mobile-search">
+          <app-search-bar />
+        </div>
+        
+        <div class="mobile-nav-links">
+          <a 
+            [routerLink]="['/']" 
+            class="mobile-nav-link"
+            (click)="closeMenu()"
+          >
+            🏠 Home
+          </a>
+          <a 
+            [routerLink]="['/search']" 
+            class="mobile-nav-link"
+            (click)="closeMenu()"
+          >
+            🔍 Search
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
