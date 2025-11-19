@@ -1,45 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { Movie } from '../models/movie.model';
-import { environment } from '../enviroments/environment';
+import moviesData from '../../assets/data/movies.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TmdbService {
-  private apiKey = environment.tmdbApiKey;
-  private baseUrl = environment.tmdbBaseUrl;
+  private movies: Movie[] = (moviesData as any).movies;
 
-  constructor(private http: HttpClient) {}
-
-  private get(endpoint: string, params: any = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
-    const allParams = { ...params, api_key: this.apiKey };
-    
-    return this.http.get(url, { params: allParams });
+  getMovieDetails(movieId: number): Observable<Movie> {
+    const movie = this.movies.find(m => m.id === movieId);
+    if (movie) {
+      return of(movie);
+    } else {
+      throw new Error('Movie not found');
+    }
   }
 
-  getPopularMovies(page: number = 1) {
-    return this.get('/movie/popular', { page });
+  getPopularMovies(): Observable<{ results: Movie[] }> {
+    return of({ results: this.movies });
   }
 
-  searchMovies(query: string, page: number = 1) {
-    return this.get('/search/movie', { query, page });
-  }
-
-  getMovieDetails(movieId: number) {
-    return this.get(`/movie/${movieId}`);
-  }
-
-  getNowPlayingMovies(page: number = 1) {
-    return this.get('/movie/now_playing', { page });
-  }
-
-  getTopRatedMovies(page: number = 1) {
-    return this.get('/movie/top_rated', { page });
-  }
-
-  getUpcomingMovies(page: number = 1) {
-    return this.get('/movie/upcoming', { page });
+  searchMovies(query: string): Observable<{ results: Movie[] }> {
+    const filtered = this.movies.filter(m => 
+      m.title.toLowerCase().includes(query.toLowerCase())
+    );
+    return of({ results: filtered });
   }
 }

@@ -51,14 +51,6 @@
         />
       </div>
 
-      <!-- Load More Button -->
-      <div *ngIf="currentPage < totalPages" class="load-more-container">
-        <button class="load-more-btn" (click)="loadMore()">
-          Load More
-        </button>
-      </div>
-    </div>
-
     <!-- Empty State -->
     <div *ngIf="!searchQuery && !isLoading" class="empty-state">
       <div class="empty-icon">🎬</div>

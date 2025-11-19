@@ -1,82 +1,58 @@
-<div class="movie-details-page">
-  <!-- Back Button -->
-  <div class="container">
-    <a [routerLink]="['/']" class="back-button">
-      ← Back to Home
-    </a>
-  </div>
+<div class="movie-page">
 
-  <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading-container">
-    <div class="loading-spinner"></div>
-    <p>Loading movie details...</p>
-  </div>
+  <!-- Backdrop absoluto -->
+  <img 
+    [src]="movie.backdrop_path || '/assets/images/backdrops/default.jpg'"
+    class="hero-backdrop"
+    [alt]="movie.title"
+  />
 
-  <!-- Error State -->
-  <div *ngIf="error && !isLoading" class="error-container">
-    <p class="error-message">{{ error }}</p>
-    <button class="retry-btn" (click)="loadMovieDetails(movie?.id || 0)">
-      Try Again
-    </button>
-  </div>
+  <!-- Overlay oscura + blur suave -->
+  <div class="backdrop-overlay"></div>
 
-  <!-- Movie Details -->
-  <div *ngIf="movie && !isLoading" class="movie-details">
-    <!-- Backdrop -->
-    <div class="backdrop-section">
-      <div 
-        class="backdrop-image"
-        [style.backgroundImage]="'url(' + (movie.backdrop_path | imageUrl:'w1280') + ')'"
-      ></div>
-      <div class="backdrop-overlay"></div>
-    </div>
+  <!-- Contenido centrado -->
+  <main class="movie-main">
 
-    <!-- Movie Content -->
-    <div class="container">
-      <div class="movie-content">
-        <!-- Poster -->
-        <div class="poster-side">
-          <img 
-            [src]="movie.poster_path | imageUrl:'w500'" 
-            [alt]="movie.title"
-            class="movie-poster"
-          />
-        </div>
+    <div class="info-box">
 
-        <!-- Info -->
-        <div class="info-side">
-          <h1 class="movie-title">{{ movie.title }}</h1>
-          
-          <div class="movie-meta">
-            <span class="release-year">
-              {{ movie.release_date | date:'yyyy' }}
-            </span>
-            <span class="rating">
-              ⭐ {{ movie.vote_average | number:'1.1-1' }}/10
-            </span>
-            <span class="vote-count">
-              ({{ movie.vote_count }} votes)
-            </span>
-          </div>
-
-          <p class="movie-overview">{{ movie.overview }}</p>
-
-          <div class="movie-details-grid">
-            <div class="detail-item">
-              <strong>Release Date:</strong>
-              <span>{{ movie.release_date | date:'longDate' }}</span>
-            </div>
-            <div class="detail-item">
-              <strong>Original Language:</strong>
-              <span>{{ movie.original_language | uppercase }}</span>
-            </div>
-            <div class="detail-item">
-              <strong>Popularity:</strong>
-              <span>{{ movie.popularity | number:'1.0-0' }}</span>
-            </div>
-          </div>
-        </div>
+      <!-- Poster a la izquierda -->
+      <div class="poster-column">
+        <img 
+          [src]="movie.poster_path || '/assets/images/posters/default.jpg'"
+          class="movie-poster"
+          [alt]="movie.title"
+        />
       </div>
+
+      <!-- Info a la derecha -->
+      <div class="text-content">
+        
+        <h1 class="movie-title-display">{{ movie.title }}</h1>
+
+        <div class="movie-meta">
+          <span>{{ movie.release_date | date:'yyyy' }}</span>
+          <span>⭐ {{ movie.vote_average }}/10</span>
+        </div>
+
+        <div class="overview">
+          <p>{{ movie.overview }}</p>
+        </div>
+
+        <div class="quick-facts">
+          <div class="fact">
+            <strong>Release Date :   </strong>
+            <span>{{ movie.release_date | date:'longDate' }}</span>
+          </div>
+          <div class="fact">
+            <strong>Language :   </strong>
+            <span>{{ movie.original_language.toUpperCase() }}</span>
+          </div>
+        </div>
+
+      </div>
+
     </div>
-  </div>
+
+  </main>
+
 </div>

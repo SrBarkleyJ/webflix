@@ -1,25 +1,15 @@
 export interface Movie {
-  id: number;
+    id: number;
   title: string;
   overview: string;
-  poster_path: string | null;
-  backdrop_path: string | null;
+  poster_path: string;
+  backdrop_path: string;
   release_date: string;
   vote_average: number;
   vote_count: number;
   popularity: number;
   genre_ids: number[];
-  adult: boolean;
-  video: boolean;
   original_language: string;
-  original_title: string;
-  runtime?: number;
-  genres?: Genre[];
-  budget?: number;
-  revenue?: number;
-  status?: string;
-  tagline?: string;
-  production_companies?: ProductionCompany[];
 }
 
 export interface Genre {

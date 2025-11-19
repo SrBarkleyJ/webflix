@@ -1,17 +1,20 @@
 import { Routes } from '@angular/router';
+import { Home } from './pages/home/home';
+import { MovieDetails } from './pages/movie-details/movie-details';
+import { Search } from './pages/search/search';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/home/home').then(c => c.Home)
+    component: Home  // ✅ Eager loading en lugar de lazy
   },
   {
-    path: 'movie/:id',
-    loadComponent: () => import('./pages/movie-details/movie-details').then(c => c.MovieDetails)
+    path: 'movie/:id', 
+    component: MovieDetails  // ✅ Eager loading
   },
   {
-    path: 'search', 
-    loadComponent: () => import('./pages/search/search').then(c => c.Search)
+    path: 'search',
+    component: Search  // ✅ Eager loading
   },
   {
     path: '**',

@@ -18,8 +18,6 @@ export class Search implements OnInit, OnDestroy {
   isLoading = false;
   searchQuery = '';
   totalResults = 0;
-  currentPage = 1;
-  totalPages = 0;
   error: string | null = null;
 
   private searchTerms = new Subject<string>();
@@ -34,7 +32,7 @@ export class Search implements OnInit, OnDestroy {
     // Setup search debouncing
     this.searchTerms
       .pipe(
-        debounceTime(500),
+        debounceTime(300), // Reducido para búsqueda local
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
@@ -63,7 +61,7 @@ export class Search implements OnInit, OnDestroy {
     this.searchTerms.next(query);
   }
 
-  performSearch(query: string, page: number = 1) {
+  performSearch(query: string) {
     if (!query.trim()) {
       this.searchResults = [];
       this.totalResults = 0;
@@ -73,12 +71,10 @@ export class Search implements OnInit, OnDestroy {
     this.isLoading = true;
     this.error = null;
 
-    this.tmdbService.searchMovies(query, page).subscribe({
+    this.tmdbService.searchMovies(query).subscribe({
       next: (response: any) => {
         this.searchResults = response.results;
-        this.totalResults = response.total_results;
-        this.currentPage = response.page;
-        this.totalPages = response.total_pages;
+        this.totalResults = response.results.length;
         this.isLoading = false;
       },
       error: (error) => {
@@ -88,11 +84,5 @@ export class Search implements OnInit, OnDestroy {
         this.searchResults = [];
       }
     });
-  }
-
-  loadMore() {
-    if (this.currentPage < this.totalPages) {
-      this.performSearch(this.searchQuery, this.currentPage + 1);
-    }
   }
 }

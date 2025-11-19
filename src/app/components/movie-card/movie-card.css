@@ -5,7 +5,7 @@
   transition: all 0.3s ease;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-
+  height: 420px;
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
@@ -39,7 +39,7 @@
     padding: 16px;
 
     .movie-title {
-      font-size: 1rem;
+      font-size: 1.3rem;
       font-weight: 600;
       margin: 0 0 8px 0;
       color: white;

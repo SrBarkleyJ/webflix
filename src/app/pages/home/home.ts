@@ -9,7 +9,7 @@ import { Movie } from '../../models/movie.model';
   standalone: true,
   imports: [CommonModule, MovieCardComponent],
   templateUrl: './home.html',
-  styleUrls: ['./home.css'] 
+  styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
   popularMovies: Movie[] = [];

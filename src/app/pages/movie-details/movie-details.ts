@@ -3,57 +3,51 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TmdbService } from '../../services/tmdb.service';
 import { Movie } from '../../models/movie.model';
-import { ImageUrlPipe } from '../../utils/image-url.pipe';
 
 @Component({
   selector: 'app-movie-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImageUrlPipe],
+  imports: [CommonModule, RouterLink],
   templateUrl: './movie-details.html',
   styleUrls: ['./movie-details.css']
 })
 export class MovieDetails implements OnInit {
-  movie: Movie | null = null;
-  isLoading = true;
-  error: string | null = null;
+
+  movie: Movie = {
+    id: 0,
+    title: '',
+    overview: '',
+    poster_path: '',
+    backdrop_path: '',
+    release_date: '',
+    vote_average: 0,
+    vote_count: 0,
+    popularity: 0,
+    genre_ids: [],
+    original_language: ''
+  };
 
   constructor(
-    private route: ActivatedRoute,
-    private tmdbService: TmdbService
+    private tmdbService: TmdbService,
+    private route: ActivatedRoute   // <-- Aquí se inyecta correctamente
   ) {}
 
   ngOnInit() {
     const movieId = this.route.snapshot.paramMap.get('id');
+
     if (movieId) {
-      this.loadMovieDetails(+movieId);
+      this.loadMovieDetails(Number(movieId)); // Convertimos string → number
     }
   }
-loadMovieDetails(movieId: number) {
-  console.log('🟡 Starting loadMovieDetails with ID:', movieId);
-  
-  this.isLoading = true;
-  this.error = null;
-  
-  this.tmdbService.getMovieDetails(movieId).subscribe({
-    next: (movie: any) => {
-      console.log('✅ Movie details loaded successfully:', movie);
-      console.log('🎬 Movie title:', movie?.title);
-      console.log('🆔 Movie ID:', movie?.id);
-      
-      this.movie = movie;
-      this.isLoading = false;
-    },
-    error: (error) => {
-      console.error('❌ Error loading movie details:', error);
-      console.error('🔧 Error details:', {
-        status: error.status,
-        statusText: error.statusText,
-        message: error.message,
-        url: error.url
-      });
-      this.error = 'Failed to load movie details. Please try again later.';
-      this.isLoading = false;
-    }
-  });
-}
+
+  loadMovieDetails(movieId: number) {
+    this.tmdbService.getMovieDetails(movieId).subscribe({
+      next: (movie: Movie) => {
+        this.movie = { ...this.movie, ...movie };
+      },
+      error: (err) => {
+        console.error('Error loading movie details:', err);
+      }
+    });
+  }
 }

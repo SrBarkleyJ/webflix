@@ -1,244 +1,118 @@
-.movie-details-page {
-  min-height: 100vh;
-  background: #0c0c0c;
-  color: white;
-  padding-top: 80px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  color: #ff6b6b;
-  text-decoration: none;
-  font-weight: 500;
-  margin-bottom: 30px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-  background: rgba(255, 107, 107, 0.1);
-}
-
-/* Loading State */
-.loading-container {
-  text-align: center;
-  padding: 100px 0;
-  color: #888;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #333;
-  border-top: 4px solid #ff6b6b;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Error State */
-.error-container {
-  text-align: center;
-  padding: 100px 0;
-  color: #ff6b6b;
-}
-
-.error-message {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
-
-.retry-btn {
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.retry-btn:hover {
-  background: #ff5252;
-}
-
-/* Backdrop Section */
-.backdrop-section {
-  position: relative;
-  height: 60vh;
-  min-height: 400px;
-  margin-bottom: 40px;
-}
-
-.backdrop-image {
-  position: absolute;
+/* --- Backdrop absoluto --- */
+.hero-backdrop {
+  position: fixed;       /* Se mantiene fijo detrás */
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(1.1); /* Oscurece para resaltar el contenido */
 }
 
+/* Capa oscura adicional */
 .backdrop-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.7) 70%,
-    #0c0c0c 100%
-  );
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(0px); /* blur global suave */
+  z-index: -1;
 }
 
-/* Movie Content */
-.movie-content {
+/* --- Contenedor centrado --- */
+.movie-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  padding: 20px;
+  position: relative;
+}
+/* Scrollbar para Webkit (Chrome, Edge, Safari) */
+.info-box::-webkit-scrollbar {
+  width: 10px;               /* ancho de la scrollbar */
+}
+
+.info-box::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05); /* fondo del track */
+  border-radius: 8px;
+}
+
+.info-box::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3); /* color del thumb */
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.3); /* espacio alrededor del thumb */
+}
+
+.info-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5); /* efecto hover */
+}
+/* --- Caja de información --- */
+.info-box {
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(5px); /* blur interno fuerte */
+  padding: 30px;
+  border-radius: 16px;
+  width: 80%;
+  max-width: 900px;
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-columns: 250px 1fr;
+  gap: 25px;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+  animation: fadeIn 0.4s ease-out;
+   max-height: 80vh;   /* que no supere la altura de la pantalla */
+  overflow-y: auto;   /* scroll vertical solo si es necesario */
+  scroll-behavior: smooth;
+  scrollbar-color: black;
+  padding-right: 15px; /* espacio para scrollbar sin cortar contenido */
 }
 
-.poster-side .movie-poster {
+/* Poster */
+.info-box .movie-poster {
   width: 100%;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  scroll-behavior: smooth;
+  overflow-x: scroll;
 }
 
-.info-side {
-  padding-top: 20px;
-}
-
-.movie-title {
+/* Título */
+.movie-title-display {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 16px;
-  line-height: 1.2;
+  color: azure;
+  margin-bottom: 10px;
 }
 
-.movie-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+/* Texto */
+.overview p {
+  line-height: 2; font-size: 1.5rem;
+  color: #f0f0f0;
 }
-
-.release-year,
-.rating,
-.vote-count {
-  color: #ccc;
-  font-size: 1rem;
+span{
+  color: azure;
 }
-
-.rating {
-  color: #ffd700;
-  font-weight: 600;
+strong{
+  color:azure;
 }
-
-.movie-overview {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #e0e0e0;
-  margin-bottom: 32px;
-}
-
-.movie-details-grid {
-  display: grid;
-  gap: 12px;
-}
-
-.detail-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.detail-item strong {
-  color: #ff6b6b;
-}
-
-.detail-item span {
-  color: #ccc;
+/* Animación ligera */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);   }
 }
 
 /* Responsive */
-@media (max-width: 968px) {
-  .movie-content {
-    grid-template-columns: 250px 1fr;
-    gap: 30px;
-  }
-  
-  .movie-title {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .movie-details-page {
-    padding-top: 70px;
-  }
-
-  .backdrop-section {
-    height: 40vh;
-    min-height: 300px;
-  }
-
-  .movie-content {
+@media (max-width: 750px) {
+  .info-box {
     grid-template-columns: 1fr;
-    gap: 20px;
     text-align: center;
   }
 
-  .poster-side {
-    max-width: 250px;
+  .info-box .movie-poster {
     margin: 0 auto;
-  }
-
-  .movie-title {
-    font-size: 1.8rem;
-  }
-
-  .movie-meta {
-    justify-content: center;
-  }
-
-  .detail-item {
-    flex-direction: column;
-    gap: 4px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 16px;
-  }
-
-  .movie-title {
-    font-size: 1.5rem;
-  }
-
-  .movie-overview {
-    font-size: 1rem;
+    width: 60%;
   }
 }
