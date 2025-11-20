@@ -3,6 +3,23 @@
   <section class="movies-section">
     <div class="container">
       <h2 class="section-title">Popular Movies</h2>
+
+      <!-- 🔥 Filtro por géneros -->
+      <nav class="genre-navbar">
+        <button 
+          (click)="selectGenre(null)" 
+          [class.active]="selectedGenre === null">
+          Todos
+        </button>
+
+        @for (entry of (genres | keyvalue); track entry.key) {
+          <button
+            (click)="selectGenre(+entry.key)"
+            [class.active]="selectedGenre === +entry.key">
+            {{ entry.value }}
+          </button>
+        }
+      </nav>
       
       <!-- Loading State -->
       @if (isLoading) {
@@ -23,7 +40,7 @@
       <!-- Movies Grid -->
       @if (!isLoading && !error) {
         <div class="movies-grid">
-          @for (movie of popularMovies; track movie.id) {
+          @for (movie of filteredMovies; track movie.id) {
             <app-movie-card 
               [movie]="movie"
               class="movie-item"

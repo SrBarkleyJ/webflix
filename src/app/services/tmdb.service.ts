@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Movie } from '../models/movie.model';
 import moviesData from '../../assets/data/movies.json';
+import { GENRES } from '../../assets/data/genres';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TmdbService {
   private movies: Movie[] = (moviesData as any).movies;
-
+ private _genres = GENRES;
   getMovieDetails(movieId: number): Observable<Movie> {
     const movie = this.movies.find(m => m.id === movieId);
+    
     if (movie) {
       return of(movie);
     } else {
@@ -27,5 +29,8 @@ export class TmdbService {
       m.title.toLowerCase().includes(query.toLowerCase())
     );
     return of({ results: filtered });
+  }
+   get genres() {
+    return this._genres;
   }
 }

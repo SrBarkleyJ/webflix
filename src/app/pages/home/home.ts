@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TmdbService } from '../../services/tmdb.service';
 import { MovieCardComponent } from '../../components/movie-card/movie-card';
 import { Movie } from '../../models/movie.model';
+import { GENRES } from '../../../assets/data/genres';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,13 @@ import { Movie } from '../../models/movie.model';
   styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
+
   popularMovies: Movie[] = [];
   isLoading = true;
   error: string | null = null;
+
+  selectedGenre: number | null = null;
+  genres = GENRES;
 
   constructor(private tmdbService: TmdbService) {}
 
@@ -34,5 +39,17 @@ export class Home implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  get filteredMovies(): Movie[] {
+    if (!this.selectedGenre) return this.popularMovies;
+
+    return this.popularMovies.filter(movie =>
+      movie.genre_ids?.includes(this.selectedGenre!)
+    );
+  }
+
+  selectGenre(id: number | null) {
+    this.selectedGenre = id;
   }
 }
