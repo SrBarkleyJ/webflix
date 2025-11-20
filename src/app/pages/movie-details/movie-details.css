@@ -31,25 +31,7 @@
   padding: 20px;
   position: relative;
 }
-/* Scrollbar para Webkit (Chrome, Edge, Safari) */
-.info-box::-webkit-scrollbar {
-  width: 10px;               /* ancho de la scrollbar */
-}
 
-.info-box::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05); /* fondo del track */
-  border-radius: 8px;
-}
-
-.info-box::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* color del thumb */
-  border-radius: 8px;
-  border: 2px solid rgba(0, 0, 0, 0.3); /* espacio alrededor del thumb */
-}
-
-.info-box::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* efecto hover */
-}
 /* --- Caja de información --- */
 .info-box {
   background: rgba(20, 20, 20, 0.55);
@@ -66,7 +48,6 @@
    max-height: 80vh;   /* que no supere la altura de la pantalla */
   overflow-y: auto;   /* scroll vertical solo si es necesario */
   scroll-behavior: smooth;
-  scrollbar-color: black;
   padding-right: 15px; /* espacio para scrollbar sin cortar contenido */
 }
 
